@@ -29,11 +29,11 @@ const _main = new TableController()
 function connectCallback() {
   document.getElementById('stomp-status').innerHTML = "It has now successfully connected to a stomp server serving price updates for some foreign exchange currency pairs."
 
-  client.subscribe("/fx/prices", (message) => {
-    if(message.body) {
-      const data = JSON.parse(message.body)
+  client.subscribe("/fx/prices", (response) => {
+    if (response.body) {
+      const data = JSON.parse(response.body)
       _main.updateData(data)
-      _main.createTable()   
+      _main.createTable()
     }
   })
 }

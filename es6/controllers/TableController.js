@@ -12,7 +12,7 @@ class Controller {
 
     updateData(data) {
 
-        const rowData = new RowData(
+        const newRowData = new RowData(
             data.name,
             data.bestBid,
             data.bestAsk,
@@ -20,18 +20,18 @@ class Controller {
             data.lastChangeAsk
         )
 
-        const newDtaTable = this._dataTable.filter(value => {
-            if(value.id != rowData.id) {
-                return true
-            } else {
-                rowData.setData = value.data
+        const newDataTable = this._dataTable.filter(rowData => {
+            if (rowData.id == newRowData.id) {
+                newRowData.setData = rowData.data
                 return false
             }
+            return true
         })
-        this._dataTable = newDtaTable
-        this._dataTable.push(rowData)
-        this._dataTable.sort(this.sortedData)
-        this.updateGraphData(rowData)
+
+        newDataTable.push(newRowData)
+        newDataTable.sort(this.sortedData)
+        this._dataTable = newDataTable
+        this.updateGraphData(newRowData)
     }
 
     sortedData(a, b) {
@@ -42,26 +42,26 @@ class Controller {
         const headers = ["Name", "Best Bid", "Best Ask", "Last Bid", "Last Ask", "Spark Line"]
         this._rowView.update({ headers, data: this._dataTable })
 
-        this._dataTable.forEach(value => {
-            const graph = this._query(`#${value.id}`)
-            Sparkline.draw(graph, value.data)
+        this._dataTable.forEach(rowData => {
+            const graph = this._query(`#${rowData.id}`)
+            Sparkline.draw(graph, rowData.data)
         });
     }
 
     updateGraph() {
-        this._dataTable.forEach(value => {
-            value.setData = this._graphData.get(value.id)
+        this._dataTable.forEach(rowData => {
+            rowData.setData = this._graphData.get(rowData.id)
         });
     }
 
     updateGraphData(rowData) {
-        const data = ((rowData.bestBid + rowData.bestAsk) / 2)
-        const rowGraphDate = this._graphData.get(rowData.id)
+        const value = ((rowData.bestBid + rowData.bestAsk) / 2)
+        const rowGraphData = this._graphData.get(rowData.id)
 
-        if (rowGraphDate) {
-            this._graphData.get(rowData.id).push(data)
+        if (rowGraphData) {
+            this._graphData.get(rowData.id).push(value)
         } else {
-            this._graphData.set(rowData.id, [data])
+            this._graphData.set(rowData.id, [value])
         }
     }
 }

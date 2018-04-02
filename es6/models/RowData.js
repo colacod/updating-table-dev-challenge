@@ -1,13 +1,11 @@
 class RowData {
 
-    constructor(name, bestBid, bestAsk, lastBid, lastAsk, data, element) {
-
+    constructor(name, bestBid, bestAsk, lastBid, lastAsk) {
         this._name = name
         this._bestBid = bestBid
         this._bestAsk = bestAsk
         this._lastBid = lastBid
         this._lastAsk = lastAsk
-        this._data = data
     }
 
     get id() {

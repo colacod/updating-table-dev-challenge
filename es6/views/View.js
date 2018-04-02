@@ -1,15 +1,15 @@
 class View {
 
-    constructor(elemento) {      
-        this._elemento = elemento;
+    constructor(element) {
+        this._element = element;
     }
 
     template(model) {
-         throw new Error('Você deve sobrescrever este método em seu template');
+        throw new Error('You should override this method in your template');
     }
 
-    update(model) {        
-        this._elemento.innerHTML = this.template(model); 
+    update(model) {
+        this._element.innerHTML = this.template(model);
     }
 }
 
